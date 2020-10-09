@@ -1,0 +1,9 @@
+export const ADD_INFRACTION = 'ADD_INFRACTION';
+export const ADD_INFRACTIONS = 'ADD_INFRACTIONS';
+export const ADD_PENALITES = 'ADD_PENALITES';
+export const ADD_VEHICULES = 'ADD_VEHICULES';
+export const ADD_DEPANNAGES = 'ADD_DEPANNAGES';
+export const ADD_POLICIERS = 'ADD_POLICIERS';
+export const ADD_PLACES ='ADD_PLACES';
+export const ADD_FACTURE = 'ADD_FACTURE';
+export const ADD_VALIDE = 'ADD_VALIDE' ;
