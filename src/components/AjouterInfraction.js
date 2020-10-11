@@ -14,6 +14,7 @@ class AjouterInfraction extends Component {
 
     handleSubmit(values){
         this.props.postInfraction(values.policierId,values.depannageId,values.numeroMatricule, values.marqueVehicule , values.typeVehicule, values.typeInfraction);
+        alert("Operation effectué avec succés");
         
     }
 

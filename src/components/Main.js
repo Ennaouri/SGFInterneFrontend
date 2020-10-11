@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import ListeVehicules from './ListeVehicules';
+import Login from './Login' ;
 import {Switch, Route, withRouter, Redirect} from 'react-router-dom';
 import { connect } from 'react-redux';
 import AjouterInfraction from './AjouterInfraction';
-import { addInfraction, fetchInfractions, fetchPenalites, fetchVehicules, postFacture, postInfraction,fetchDepannages, fetchPoliciers } from '../redux/ActionCreators';
+import { fetchInfractions, fetchPenalites, fetchVehicules, postFacture, postInfraction,fetchDepannages, fetchPoliciers } from '../redux/ActionCreators';
 import InfoInfractions from './InfoInfractions';
 import AdjustStatus from "./AdjustStatus";
 
@@ -74,11 +75,12 @@ const ajouterFacture = ({match}) => {
     );
 };
 
+const montant = this.props.penalites.penalites.map(penalite => penalite.montant);
 
 
         return (
             <div>
-              
+              {montant}
                 <Header />
         <Switch>
           <Route path="/home" >
@@ -95,7 +97,7 @@ const ajouterFacture = ({match}) => {
                />}/>
           <Route path='/infractions/:infractionId' component={info} />
           <Route path='/ajouterFacture/:infractionId' component={ajouterFacture} />
-          
+          <Route path='/login' component={() => <Login /> }/>
           
           <Redirect to="/home" />
         </Switch>
