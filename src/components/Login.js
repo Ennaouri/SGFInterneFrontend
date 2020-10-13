@@ -8,14 +8,19 @@ const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 export default class Login extends Component {
 
-    handleSubmit(values){
-       this.props.history.push("/");
+    handleLogin(values){
+        this.props.loginUser({username: values.username, password: values.password});
         
+        
+    }
+
+    handleLogout() {
+        this.props.logoutUser();
     }
     render() {
         return (
             <div className="container">
-                <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+                <LocalForm onSubmit={(values) => this.handleLogin(values)}>
                     <Row className="form-group">
                         <Label htmlFor="username" md={2}>Numero Matricule</Label>
                         <Col md={10}>
@@ -61,12 +66,20 @@ export default class Login extends Component {
                             />
                         </Col>
                     </Row>
+                    { this.props.auth.isAuthenticated ?
+                                        <p> je suis authentifié </p>
+                                        :
+                                        <div>
+                                            <p>je ne suis pas authentifié</p>
+                                        </div>
+                                    }
                     <Row className="form-group">
                         <Col md={{size: 10, offset: 2}}>
                             <Button type="submit" color="primary">
                                 Valider
                             </Button>
-                        </Col>  
+                        </Col>
+                          
                     </Row>
                     
                 </LocalForm>

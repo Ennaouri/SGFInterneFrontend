@@ -61,9 +61,7 @@ function InfoInfractions(props) {
     ));
     
 
-    const pen = props.penalites.filter(penalite => penalite.infraction.id === parseInt(props.parametre,10) ).map((penalite, index) => (
-        <p>{penalite.libelle}</p>
-    ));
+    
 
    
        

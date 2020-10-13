@@ -1,30 +1,23 @@
 import React, {Component} from 'react';
 import {Row, Col, Button, Label } from 'reactstrap';
 import {Control,LocalForm,Errors} from 'react-redux-form';
-import {Card} from 'react-bootstrap' ;
-import {Link} from 'react-router-dom' ;
 
-const required =(val) =>val&&val.length;
+
+//const required =(val) =>val&&val.length;
 const maxLength = (len)=>(val)=>!(val)||(val.length<=len)
 const minLength = (len)=>(val)=>(val)&&(val.length>=len)
 
 
 class AdjustStatus extends Component{
 
-    constructor(props){
-        super(props);
-        this.state={
-            modalOpen:false
-        }
-        
-    }
+    
 
     
 
     handleSubmit(values)
     {
         let montant=0;
-        const somme = this.props.penalites.filter(penalite => penalite.infraction.id === parseInt(this.props.infractionId,10) ).map((penalite, index) => {
+        this.props.penalites.filter(penalite => penalite.infraction.id === parseInt(this.props.infractionId,10) ).map((penalite, index) => {
             montant +=penalite.montant;
             return penalite.montant;
         });
@@ -36,7 +29,7 @@ class AdjustStatus extends Component{
 
         
             let montant=0;
-        const somme = this.props.penalites.filter(penalite => penalite.infraction.id === parseInt(this.props.infractionId,10) ).map((penalite, index) => {
+        this.props.penalites.filter(penalite => penalite.infraction.id === parseInt(this.props.infractionId,10) ).map((penalite, index) => {
             montant +=penalite.montant;
             return penalite.montant;
         });
@@ -73,9 +66,7 @@ class AdjustStatus extends Component{
            
         ));
 
-        const pen = this.props.penalites.filter(penalite => penalite.infraction.id === parseInt(this.props.infractionId,10) ).map((penalite, index) => (
-            <p>{penalite.libelle}</p>
-        ));
+       
 
         return (
             <div className="container">

@@ -3,6 +3,7 @@ import {Infractions} from './infractions';
 import { Vehicules } from './vehicules';
 import {Penalites} from './penalites';
 import {Places} from './places';
+import { Auth } from './auth';
 import {Depannages} from './depannages';
 import {Policiers} from './policiers' ;
 import thunk from 'redux-thunk';
@@ -20,6 +21,7 @@ export const configureStore = () => {
             places : Places,
             depannages : Depannages,
             policiers : Policiers,
+            auth : Auth,
             ...createForms({
                 facture : InitialFacture,
                 infraction : InitialInfraction

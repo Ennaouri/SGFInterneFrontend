@@ -1,6 +1,7 @@
 import * as ActionTypes from './ActionTypes' ;
 import {baseUrl} from '../shared/baseUrl';
 import {fetch} from 'cross-fetch';
+import {axios} from 'axios' ;
 
 
 
@@ -25,6 +26,8 @@ export const addVehicules = (vehicules) => ({
 
 export const fetchVehicules = () => (dispatch) => {
 
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+    
     return fetch(baseUrl + 'vehicules')
     
     .then(response => response.json())
@@ -38,6 +41,7 @@ export const addPenalites = (penalites) => ({
 });
 
 export const fetchPenalites = () => (dispatch) => {
+    const bearer = 'Bearer ' + localStorage.getItem('token');
 
     return fetch(baseUrl + 'penalites')
 
@@ -96,12 +100,13 @@ export const postFacture = (infractionId, montantTotal , valideCarteGrise, valid
 };
 
 export const addDepannages = (depannages) => ({
+    
     type: ActionTypes.ADD_DEPANNAGES,
     payload: depannages
 });
 
 export const fetchDepannages = () => (dispatch) => {
-
+    const bearer = 'Bearer ' + localStorage.getItem('token');
     return fetch(baseUrl + 'depannages')
 
         .then(response => response.json())
@@ -115,8 +120,13 @@ export const addPoliciers = (policiers) => ({
 });
 
 export const fetchPoliciers = () => (dispatch) => {
+    const bearer = 'Bearer ' + localStorage.getItem('token');
 
-    return fetch(baseUrl + 'policiers')
+    return fetch(baseUrl + 'policiers',{
+        headers : {
+            'Authorization' : localStorage.getItem('token')
+        }
+    })
 
         .then(response => response.json())
         .then(policiers => dispatch(addPoliciers(policiers)))
@@ -155,3 +165,93 @@ export const postInfraction = (policierId,depannageId,numeroMatricule, marqueVeh
         .then(response => dispatch(addInfraction(response)))
 
 };
+
+export const requestLogin = (creds) => {
+    return {
+        type: ActionTypes.LOGIN_REQUEST,
+        creds
+    }
+}
+  
+export const receiveLogin = (response) => {
+    return {
+        type: ActionTypes.LOGIN_SUCCESS,
+        token: response
+    }
+}
+  
+export const loginError = (message) => {
+    return {
+        type: ActionTypes.LOGIN_FAILURE,
+        message
+    }
+}
+
+export const loginUser = (creds) => (dispatch) => {
+    // We dispatch requestLogin to kickoff the call to the API
+    dispatch(requestLogin(creds))
+
+    fetch(baseUrl + 'login', {
+        method: 'POST',
+        headers: { 
+            'Content-Type':'application/json' 
+        },
+        body: JSON.stringify(creds)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        } else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+        },
+        error => {
+            throw error;
+        })
+        
+    
+    .then(response => {
+        if (response.status) {
+            // If login was successful, set the token in local storage
+            console.log('response : ' + response.headers.map.authorization);
+            console.log('creds : ' + JSON.stringify(creds));
+            localStorage.setItem('token', response.headers.map.authorization);
+            localStorage.getItem('token')
+            localStorage.setItem('creds', JSON.stringify(creds));
+            // Dispatch the success action
+        //    dispatch(fetchFavorites());
+            dispatch(receiveLogin(response.headers.map.authorization));
+        }
+        else {
+            var error = new Error('Error ' + response.status);
+            error.response = response;
+            throw error;
+        }
+    })
+    .catch(error => dispatch(loginError(error.message)))
+};
+
+export const requestLogout = () => {
+    return {
+      type: ActionTypes.LOGOUT_REQUEST
+    }
+}
+  
+export const receiveLogout = () => {
+    return {
+      type: ActionTypes.LOGOUT_SUCCESS
+    }
+}
+
+// Logs the user out
+export const logoutUser = () => (dispatch) => {
+    dispatch(requestLogout())
+    localStorage.removeItem('token');
+    localStorage.removeItem('creds');
+   // dispatch(favoritesFailed("Error 401: Unauthorized"));
+    dispatch(receiveLogout())
+}
+
+
