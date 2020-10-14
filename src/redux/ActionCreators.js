@@ -1,7 +1,7 @@
 import * as ActionTypes from './ActionTypes' ;
 import {baseUrl} from '../shared/baseUrl';
 import {fetch} from 'cross-fetch';
-import {axios} from 'axios' ;
+import history from "../components/history";
 
 
 
@@ -13,9 +13,16 @@ export const addInfractions = (infractions) => ({
 });
 
 export const fetchInfractions = () => async (dispatch) => {    
-    const response = await fetch(baseUrl + 'infractions');
-    const infractions = await response.json();
-    return dispatch(addInfractions(infractions));
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'infractions',{
+        headers : {
+            'Authorization' : bearer
+        }
+    })
+    
+    .then(response => response.json())
+    .then(vehicules => dispatch(addInfractions(vehicules)))
     
 };
 
@@ -27,8 +34,12 @@ export const addVehicules = (vehicules) => ({
 export const fetchVehicules = () => (dispatch) => {
 
     const bearer = 'Bearer ' + localStorage.getItem('token');
-    
-    return fetch(baseUrl + 'vehicules')
+
+    return fetch(baseUrl + 'vehicules',{
+        headers : {
+            'Authorization' : bearer
+        }
+    })
     
     .then(response => response.json())
     .then(vehicules => dispatch(addVehicules(vehicules)))
@@ -43,7 +54,11 @@ export const addPenalites = (penalites) => ({
 export const fetchPenalites = () => (dispatch) => {
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
-    return fetch(baseUrl + 'penalites')
+    return fetch(baseUrl + 'penalites',{
+        headers : {
+            'Authorization' : bearer
+        }
+    })
 
         .then(response => response.json())
         .then(penalites => dispatch(addPenalites(penalites)))
@@ -57,7 +72,13 @@ export const addPlaces = (places) => ({
 
 export const fetchPlaces = () => (dispatch) => {
 
-    return fetch(baseUrl + 'places')
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'places',{
+        headers : {
+            'Authorization' : bearer
+        }
+    })
 
         .then(response => response.json())
         .then(places => dispatch(addPlaces(places)))
@@ -70,7 +91,7 @@ export const addFacture = (facture) => ({
 });
 
 export const postFacture = (infractionId, montantTotal , valideCarteGrise, validePermis, valideAssurance, valideVignette, valideVisite,validePaiement ) => (dispatch) => {
-
+    const bearer = 'Bearer ' + localStorage.getItem('token');
     const newFacture = {
         infractionId: infractionId,
         montantTotal: montantTotal,
@@ -87,7 +108,7 @@ export const postFacture = (infractionId, montantTotal , valideCarteGrise, valid
         method: "POST",
         body: JSON.stringify(newFacture),
         headers: {
-            
+            'Authorization' : bearer,
             "Content-Type": "application/json"
             
         },
@@ -107,7 +128,12 @@ export const addDepannages = (depannages) => ({
 
 export const fetchDepannages = () => (dispatch) => {
     const bearer = 'Bearer ' + localStorage.getItem('token');
-    return fetch(baseUrl + 'depannages')
+
+    return fetch(baseUrl + 'depannages',{
+        headers : {
+            'Authorization' : bearer
+        }
+    })
 
         .then(response => response.json())
         .then(depannages => dispatch(addDepannages(depannages)))
@@ -124,13 +150,13 @@ export const fetchPoliciers = () => (dispatch) => {
 
     return fetch(baseUrl + 'policiers',{
         headers : {
-            'Authorization' : localStorage.getItem('token')
+            'Authorization' : bearer
         }
     })
 
         .then(response => response.json())
         .then(policiers => dispatch(addPoliciers(policiers)))
-
+        .catch(err => dispatch(receiveLogout()))
 };
 
 export const addInfraction = (infraction) => ({
@@ -139,7 +165,7 @@ export const addInfraction = (infraction) => ({
 });
 
 export const postInfraction = (policierId,depannageId,numeroMatricule, marqueVehicule , typeVehicule, typeInfraction) => (dispatch) => {
-
+    const bearer = 'Bearer ' + localStorage.getItem('token');
     const newInfraction = {
         policierId: policierId,
         depannageId: depannageId,
@@ -154,7 +180,7 @@ export const postInfraction = (policierId,depannageId,numeroMatricule, marqueVeh
         method: "POST",
         body: JSON.stringify(newInfraction),
         headers: {
-            
+            'Authorization' : bearer,
             "Content-Type": "application/json"
             
         },
@@ -223,6 +249,7 @@ export const loginUser = (creds) => (dispatch) => {
             // Dispatch the success action
         //    dispatch(fetchFavorites());
             dispatch(receiveLogin(response.headers.map.authorization));
+            
         }
         else {
             var error = new Error('Error ' + response.status);
@@ -230,6 +257,11 @@ export const loginUser = (creds) => (dispatch) => {
             throw error;
         }
     })
+    .then((response) => {
+        // ...
+        history.push('/home');
+        window.location.reload();
+      })
     .catch(error => dispatch(loginError(error.message)))
 };
 
@@ -248,10 +280,11 @@ export const receiveLogout = () => {
 // Logs the user out
 export const logoutUser = () => (dispatch) => {
     dispatch(requestLogout())
+    console.log("je suis dans logout");
     localStorage.removeItem('token');
     localStorage.removeItem('creds');
    // dispatch(favoritesFailed("Error 401: Unauthorized"));
-    dispatch(receiveLogout())
+    dispatch(receiveLogout());
 }
 
 

@@ -28,7 +28,7 @@ export const Auth = (state = {
             return {...state,
                 isLoading: false,
                 isAuthenticated: false,
-                errMess: action.message
+                errMess: "authentification echoué"
             };
         case ActionTypes.LOGOUT_REQUEST:
             return {...state,

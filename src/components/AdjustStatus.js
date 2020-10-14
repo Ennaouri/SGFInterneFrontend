@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Row, Col, Button, Label } from 'reactstrap';
 import {Control,LocalForm,Errors} from 'react-redux-form';
+import history from "../components/history";
 
 
 //const required =(val) =>val&&val.length;
@@ -22,22 +23,27 @@ class AdjustStatus extends Component{
             return penalite.montant;
         });
         
+        
         this.props.postFacture(this.props.infractionId,montant,values.agreeGrise,values.agreePermis,values.agreeAssurance,values.agreeVignette,values.agreeVisite,values.valideMontant);
-
+        alert("Operation effectué avec succés");
+        history.push('/home');
+        window.location.reload();
     }
     render(){
 
         
             let montant=0;
+            
         this.props.penalites.filter(penalite => penalite.infraction.id === parseInt(this.props.infractionId,10) ).map((penalite, index) => {
+
             montant +=penalite.montant;
             return penalite.montant;
         });
         
         const tableRows = this.props.infractions.filter(infraction => infraction.id === parseInt(this.props.infractionId,10)).map(( infraction , index) =>(
-            <div>
+           
     
-        <tbody>
+        <tbody key={index}>
             
         <tr>
           <td>Numero Infraction : </td>
@@ -62,7 +68,7 @@ class AdjustStatus extends Component{
         </tr>
 
       </tbody>
-            </div>
+            
            
         ));
 

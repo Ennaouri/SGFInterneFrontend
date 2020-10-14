@@ -1,14 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-
+import {Button} from 'react-bootstrap';
 
 
 function InfoInfractions(props) {
-    
+  console.log("pen inf :" + JSON.stringify(props.penalites[0])) 
     const tableRows = props.infractions.filter(infraction => infraction.id === parseInt(props.parametre,10)).map(( infraction , index) =>(
-        <div>
+        
 
-    <tbody>
+    <tbody key={index}>
         
     <tr>
       <td>Numero Infraction : </td>
@@ -54,9 +54,13 @@ function InfoInfractions(props) {
             <td>Emplacement Vehicule dans le parking : </td>
     <td>{infraction.place.libelle}</td>
         </tr>
-        <Link to={"/ajouterFacture/" + infraction.id} className="btn btn-primary">Regler Situation Vehicule </Link>
+        <tr>
+          <td>
+        {infraction.dateSortie != null ? <Button className="btn btn-primary" disabled>Vehicule out</Button> : <Link to={"/ajouterFacture/" + infraction.id} className="btn btn-primary">Regler SItuation Vehicule </Link>}
+        </td>
+        </tr>
   </tbody>
-        </div>
+        
        
     ));
     

@@ -9,7 +9,7 @@ import AjouterInfraction from './AjouterInfraction';
 import { fetchInfractions, fetchPenalites, fetchVehicules, loginUser, logoutUser, postFacture, postInfraction,fetchDepannages, fetchPoliciers } from '../redux/ActionCreators';
 import InfoInfractions from './InfoInfractions';
 import AdjustStatus from "./AdjustStatus";
-
+import jwt_decode from "jwt-decode";
 
 
 const mapStateToProps = state => {
@@ -54,7 +54,7 @@ class Main extends Component {
 
   }
     render() {
-      
+     
 
 const info = ({match}) => {
   return(
@@ -92,36 +92,43 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   )} />
 );
 
-console.log("authen"  + this.props.auth.isAuthenticated )
+console.log("authen"  + this.props.auth.isAuthenticated );
+var token=localStorage.getItem('token');
+console.log("token"  + token );
+var decoded = jwt_decode(token);
+ 
+console.log("decode : "+decoded.roles[0].authority);
         return (
             <div>
-              
-                <Header />
+              {!this.props.auth.isAuthenticated ?
+                <div></div>
+          :
+          <div>
+           <Header logoutUser={this.props.logoutUser} />
+           
+           </div>
+              }
                 
-          { this.props.auth.isAuthenticated ?
-                                        <Sidebar />
-                                        :
-                                        <div>
-                                        
-                                        </div>
-                                    }
+                
+          
                 
         <Switch>
         
-          <Route path="/home" Component={() => <ListeVehicules infractions={this.props.infractions.infractions} />} />
+          
           
         
-          <Route path="/ajouterInfraction" component={() => <AjouterInfraction
+          <PrivateRoute path="/ajouterInfraction" component={() => <AjouterInfraction
                depannages={this.props.depannages.depannages}
                policiers={this.props.policiers.policiers}
                postInfraction={this.props.postInfraction}
                />}/>
-          <Route path='/infractions/:infractionId' component={info} />
-          <Route path='/ajouterFacture/:infractionId' component={ajouterFacture} />
+          <PrivateRoute path='/infractions/:infractionId' component={info} />
+          <PrivateRoute path='/ajouterFacture/:infractionId' component={ajouterFacture} />
           <Route path='/login' component={() => <Login auth={this.props.auth} 
           loginUser={this.props.loginUser} 
           logoutUser={this.props.logoutUser} /> }/>
           
+          <PrivateRoute path='/home' component={() => <ListeVehicules infractions={this.props.infractions.infractions} />} />
           <Redirect to="/home" />
         </Switch>
             </div>
