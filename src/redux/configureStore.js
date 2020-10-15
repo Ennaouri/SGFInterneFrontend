@@ -10,7 +10,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { createForms } from 'react-redux-form';
 import {InitialFacture, InitialInfraction} from "./forms";
-
+import { InitialFeedback } from './forms';
 
 export const configureStore = () => {
     const store =createStore(
@@ -24,7 +24,8 @@ export const configureStore = () => {
             auth : Auth,
             ...createForms({
                 facture : InitialFacture,
-                infraction : InitialInfraction
+                infraction : InitialInfraction,
+                feedback: InitialFeedback
             })
         }),
         applyMiddleware(thunk, logger)

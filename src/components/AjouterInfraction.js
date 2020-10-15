@@ -26,10 +26,10 @@ class AjouterInfraction extends Component {
     render(){
         console.log("je suis dans ajouterInf");
         const dep = this.props.depannages.map((depannage,index) => (
-        <option key={index}>{depannage.id}</option>
+        <option key={index} value={depannage.id}>{depannage.nom} {depannage.prenom}</option>
         ));
         const pol = this.props.policiers.map((policier,index) => (
-            <option key={index}>{policier.id}</option>
+            <option key={index} value={policier.id}>{policier.nom} {policier.prenom} </option>
             ));
         return (
             <div className="container ajouterInfraction__home">
@@ -84,7 +84,7 @@ class AjouterInfraction extends Component {
                         <Col md={{size: 10, offset: 2}}>
                             <Control.select model=".typeInfraction" name="typeInfraction"
                             className="form-control" >
-                                <option selected disabled>Choisir Type Infraction</option>
+                                <option selected hidden>Choisir Type Infraction</option>
                                 <option>stationnement</option>
                                 <option>vole</option>
                                 <option>permisOff</option>
@@ -95,7 +95,7 @@ class AjouterInfraction extends Component {
                     <Col md={{size: 10, offset: 2}}>
                             <Control.select model=".typeVehicule" name="typeVehicule"
                             className="form-control" >
-                                <option selected disabled>Choisir Type Vehicule</option>
+                                <option selected hidden>Choisir Type Vehicule</option>
                                 <option>leger</option>
                                 <option>lourd</option>
                                 <option>moto</option>
@@ -106,7 +106,7 @@ class AjouterInfraction extends Component {
                     <Col md={{size: 10, offset: 2}}>
                             <Control.select model=".secteur" name="secteur"
                             className="form-control" >
-                                <option selected disabled>Choisir Secteur de l'Infraction</option>
+                                <option selected hidden>Choisir Secteur de l'Infraction</option>
                                 <option>cym</option>
                                 <option>hassan</option>
                                 <option>hay riad</option>
@@ -117,7 +117,7 @@ class AjouterInfraction extends Component {
                     <Col md={{size: 10, offset: 2}}>
                             <Control.select model=".depannageId" name="depannageId"
                             className="form-control" >
-                                <option selected disabled>Choisir Depannage</option>
+                                <option selected hidden>Choisir Depannage</option>
                                 {dep}
                             </Control.select>
                         </Col>
@@ -126,14 +126,18 @@ class AjouterInfraction extends Component {
                     <Col md={{size: 10, offset: 2}}>
                             <Control.select model=".policierId" name="policierId"
                             className="form-control" >
-                                <option selected disabled>Choisir Policier Constateur de l'infraction</option>
+                                <option selected hidden>Choisir Policier Constateur de l'infraction</option>
                                 {pol}
                             </Control.select>
                         </Col>
                     </Row>
-                    <Row className="form-group">
+                    <Row className="fileUp">
+                        <input type="file" />
+                    </Row>
+                    <Row className="form-group mt-4">
                         <Col md={{size: 10, offset: 2}}>
-                            <Button type="submit" color="primary">
+                            <Button type="submit" color="primary" fullWidth
+              >
                                 Valider
                             </Button>
                         </Col>

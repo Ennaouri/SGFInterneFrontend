@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Button} from 'react-bootstrap';
-
+import './infoInfractions.css';
+import {  MDBCardHeader, MDBCard, MDBCardBody, MDBTableHead, MDBTableBody,MDBTable, MDBDataTable  } from 'mdbreact';
 
 function InfoInfractions(props) {
   console.log("pen inf :" + JSON.stringify(props.penalites[0])) 
@@ -56,7 +57,7 @@ function InfoInfractions(props) {
         </tr>
         <tr>
           <td>
-        {infraction.dateSortie != null ? <Button className="btn btn-primary" disabled>Vehicule out</Button> : <Link to={"/ajouterFacture/" + infraction.id} className="btn btn-primary">Regler SItuation Vehicule </Link>}
+        {infraction.dateSortie != null ? <Button className="btn btn-danger" disabled>Vehicule already out out</Button> : <Link to={"/ajouterFacture/" + infraction.id} className="btn btn-primary centerLink btn-lg btn-block">Regler Situation Vehicule </Link>}
         </td>
         </tr>
   </tbody>
@@ -78,11 +79,19 @@ function InfoInfractions(props) {
  
  return (
     <div className="container">
-    <div className="row col-8 " >
-           <table className="table" >
+    <div className="row offset-md-2" >
+    <MDBCard >
+                    <MDBCardHeader tag="h3" className="text-center font-weight-bold text-uppercase py-4">
+                        Details sur l'infraction
+                    </MDBCardHeader>
+                    <MDBCardBody>
+                    <table className="table" >
   
   {tableRows}
 </table>
+                    </MDBCardBody>
+                </MDBCard>
+          
 </div>
         </div>
     )

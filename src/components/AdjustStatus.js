@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Row, Col, Button, Label } from 'reactstrap';
 import {Control,LocalForm,Errors} from 'react-redux-form';
 import history from "../components/history";
-
+import {  MDBCardHeader, MDBCard, MDBCardBody, MDBTableHead, MDBTableBody,MDBTable, MDBDataTable  } from 'mdbreact';
+import './adjustStatus.css';
 
 //const required =(val) =>val&&val.length;
 const maxLength = (len)=>(val)=>!(val)||(val.length<=len)
@@ -76,19 +77,32 @@ class AdjustStatus extends Component{
 
         return (
             <div className="container">
-                <div className="row" >
-                    <table className="table">
-                    {tableRows}
-                    </table>
                 
-                </div>
                 
-
-
-                            <LocalForm onSubmit={(value)=>this.handleSubmit(value)}>
+    <div className="row offset-md-2" >
+    <MDBCard className="CardWeight">
+                    <MDBCardHeader tag="h3" className="text-center font-weight-bold text-uppercase py-4">
+                        Information De base
+                    </MDBCardHeader>
+                    <MDBCardBody>
+                    <table className="table" >
+  
+  {tableRows}
+</table>
+                    </MDBCardBody>
+                </MDBCard>
+          
+</div>
+<div className="row offset-md-2" >
+<MDBCard className="CardWeight">
+                    <MDBCardHeader tag="h3" className="text-center font-weight-bold text-uppercase py-4">
+                        Formulaire de validation
+                    </MDBCardHeader>
+                    <MDBCardBody>
+                    <LocalForm onSubmit={(value)=>this.handleSubmit(value)}>
                             <Row className="form-group">
-                                    <Label htmlFor="nomConducteur" md={2}>Nom Conducteur</Label>
-                                    <Col md={6}>
+                                    <Label htmlFor="nomConducteur" md={4}>Nom Conducteur</Label>
+                                    <Col md={8}>
                                         <Control.text model=".nomConducteur" id="nomConducteur" name="nomConducteur"
                                             placeholder="nom"
                                             className="form-control"
@@ -108,8 +122,8 @@ class AdjustStatus extends Component{
                                     </Col>
                                 </Row>
                                 <Row className="form-group">
-                                    <Label htmlFor="prenomConducteur" md={2}>Prenom Conducteur</Label>
-                                    <Col md={6}>
+                                    <Label htmlFor="prenomConducteur" md={4}>Prenom Conducteur</Label>
+                                    <Col md={8}>
                                         <Control.text model=".prenomConducteur" id="prenomConducteur" name="prenomConducteur"
                                             placeholder="Prenom"
                                             className="form-control"
@@ -129,7 +143,28 @@ class AdjustStatus extends Component{
                                     </Col>
                                 </Row>
                                 <Row className="form-group">
-                                    <Col md={{size: 6, offset: 2}}>
+                                    <Label htmlFor="cin" md={4}>CIN</Label>
+                                    <Col md={8}>
+                                        <Control.text model=".cin" id="cin" name="cin"
+                                            placeholder="CIN"
+                                            className="form-control"
+                                            validators={{
+                                                minLength: minLength(3), maxLength: maxLength(15)
+                                            }}
+                                             />
+                                        <Errors
+                                            className="text-danger"
+                                            model=".author"
+                                            show="touched"
+                                            messages={{
+                                                minLength: 'Must be greater than 2 characters',
+                                                maxLength: 'Must be 15 characters or less'
+                                            }}
+                                         />
+                                    </Col>
+                                </Row>
+                                <Row className="form-group">
+                                    <Col md={{size: 6, offset: 4}}>
                                         <div className="form-check">
                                             <Label check>
                                                 <Control.checkbox model=".agreeGrise" name="agreeGrise"
@@ -141,7 +176,7 @@ class AdjustStatus extends Component{
                                     </Col>
                                 </Row>
                                 <Row className="form-group">
-                                    <Col md={{size: 6, offset: 2}}>
+                                    <Col md={{size: 6, offset: 4}}>
                                         <div className="form-check">
                                             <Label check>
                                                 <Control.checkbox model=".agreePermis" name="agreePermis"
@@ -153,7 +188,7 @@ class AdjustStatus extends Component{
                                     </Col>
                                 </Row>
                                 <Row className="form-group">
-                                    <Col md={{size: 6, offset: 2}}>
+                                    <Col md={{size: 6, offset: 4}}>
                                         <div className="form-check">
                                             <Label check>
                                                 <Control.checkbox model=".agreeAssurance" name="agreeAssurance"
@@ -165,7 +200,7 @@ class AdjustStatus extends Component{
                                     </Col>
                                 </Row>
                                 <Row className="form-group">
-                                    <Col md={{size: 6, offset: 2}}>
+                                    <Col md={{size: 6, offset: 4}}>
                                         <div className="form-check">
                                             <Label check>
                                                 <Control.checkbox model=".agreeVignette" name="agreeVignette"
@@ -178,7 +213,7 @@ class AdjustStatus extends Component{
                                 </Row>
                                 
                                 <Row className="form-group">
-                                    <Col md={{size: 6, offset: 2}}>
+                                    <Col md={{size: 6, offset: 4}}>
                                         <div className="form-check">
                                             <Label check>
                                                 <Control.checkbox model=".agreeVisite" name="agreeVisite"
@@ -189,9 +224,9 @@ class AdjustStatus extends Component{
                                         </div>
                                     </Col>
                                 </Row>
-                                <p>Le montant à payer est : {montant}</p>
+                                <p className="text-danger text-center">Le montant à payer est : {montant}</p>
                                 <Row className="form-group">
-                                    <Col md={{size: 6, offset: 2}}>
+                                    <Col md={{size: 6, offset: 4}}>
                                         <div className="form-check">
                                             <Label check>
                                                 <Control.checkbox model=".valideMontant" name="valideMontant"
@@ -209,7 +244,12 @@ class AdjustStatus extends Component{
                                 </Row>
                                         
                             </LocalForm>
+                    </MDBCardBody>
+                </MDBCard>
 
+
+                            
+                </div>
             </div>
         );
     }

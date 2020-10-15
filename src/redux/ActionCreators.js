@@ -287,4 +287,54 @@ export const logoutUser = () => (dispatch) => {
     dispatch(receiveLogout());
 }
 
+export const postFeedback = (firstname,lastname,telnum,email,agree,contactType,message) => dispatch => {
+
+    const newFeedback = {
+      firstname: firstname,
+      lastname: lastname,
+      telnum: telnum,
+      email: email,
+      agree: agree,
+      contactType: contactType,
+      message: message
+    };
+    newFeedback.date = new Date().toISOString();
+    return fetch(baseUrl + "feedbacks", {
+      method: "POST",
+      body: JSON.stringify(newFeedback),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
+    })
+      .then(response =>
+        alert("Merci pour votre feedback!")
+      )
+      .catch(error => {
+        console.log("post feedbacks", error.message);
+        alert("Your feedback could not be posted\nError: " + error.message);
+      });
+  };
+  export function deleteSetSuccess(id) {
+    return {
+      type: ActionTypes.DELETE_INFRACTION,
+      id,
+    };
+  }
+
+export const deleteInfraction = (id) => (dispatch) => {
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'delete/' + id ,{
+        method: "DELETE",
+        headers : {
+            'Authorization' : bearer,
+            
+        }
+    })
+
+        .then(response => response.json())
+        .then(id => dispatch(deleteSetSuccess(id)))
+        
+};
 

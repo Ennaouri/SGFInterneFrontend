@@ -90,25 +90,26 @@ constructor(props) {
             <Collapse isOpen={this.state.isNavOpen} navbar>
               <Nav navbar >
                 <ul className="navbar-nav mr-auto">
-                  <li className="active\"><NavLink className="nav-link" to='/home'><span className="fa fa-home fa-lg"></span> Home</NavLink></li>
-                  <li><NavLink className="nav-link" to='/videos' ><span className="fa fa-list fa-lg"></span> Tous les Videos</NavLink></li>
-                  <li><NavDropdown title="Categories" id="nav-dropdown"  >
-                    <NavDropdown.Item eventKey="4.1"><NavLink to='/categorie/technologie'>Technologie</NavLink></NavDropdown.Item>
-                    <NavDropdown.Item eventKey="4.2"><NavLink to='/categorie/Mathematique'>Mathematiques</NavLink></NavDropdown.Item>
-                    <NavDropdown.Item eventKey="4.3"><NavLink to='/categorie/Games'>Games</NavLink></NavDropdown.Item>
-                  </NavDropdown>
-                  </li>
-                  <li><NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink></li>
+                  <li className="active\"><NavLink className="nav-link" to='/home'><span className="fa fa-home fa-lg"></span> List Vehicules</NavLink></li>
+                  <li><NavLink className="nav-link" to='/AjouterInfraction' ><span className="fa fa-list fa-lg"></span> Ajouter Infraction</NavLink></li>
+                  {this.props.role === 'ADMIN' ?
+                  <li><NavLink className="nav-link" to='/Facturation' ><span className="fa fa-list fa-lg"></span> Facturation</NavLink></li>
+                : <li></li>
+                }
+                  
+                  
                 </ul>
               </Nav>
 
             </Collapse>
             <div className="header__icons">
                 
-                <Avatar
+                {this.props.role === 'ADMIN' ? <Avatar
                     alt="Ennaouri"
                     src="../assets/images/photo.jpg"
                     />
+                : <div></div>
+                }
                     <LocalForm onSubmit={() => this.handleLogout()}>
                     <Button type="submit" color="primary" className="ml-2" >
                                 Logout

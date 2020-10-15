@@ -6,10 +6,12 @@ import Login from './Login' ;
 import {Switch, Route, withRouter, Redirect} from 'react-router-dom';
 import { connect } from 'react-redux';
 import AjouterInfraction from './AjouterInfraction';
-import { fetchInfractions, fetchPenalites, fetchVehicules, loginUser, logoutUser, postFacture, postInfraction,fetchDepannages, fetchPoliciers } from '../redux/ActionCreators';
+import ContactUs from './ContactUs' ;
+import { fetchInfractions, fetchPenalites, fetchVehicules, deleteInfraction, loginUser, logoutUser, postFacture, postInfraction,fetchDepannages, fetchPoliciers, postFeedback } from '../redux/ActionCreators';
 import InfoInfractions from './InfoInfractions';
 import AdjustStatus from "./AdjustStatus";
 import jwt_decode from "jwt-decode";
+import DeleteInfraction from './DeleteInfraction';
 
 
 const mapStateToProps = state => {
@@ -35,7 +37,8 @@ const mapDispatchToProps = dispatch =>({
   fetchInfractions: () => dispatch(fetchInfractions()),
   fetchVehicules: () => dispatch(fetchVehicules()),
   fetchPoliciers: () => dispatch(fetchPoliciers()),
-  
+  postFeedback: (firstname,lastname,telnum,email,agree,contactType,message) => dispatch(postFeedback(firstname,lastname,telnum,email,agree,contactType,message) ),
+  deleteInfraction: id => dispatch(deleteInfraction(id))
 //  fetchPlaces: () => dispatch(fetchPlaces()),
   
 });
@@ -79,6 +82,14 @@ const ajouterFacture = ({match}) => {
     );
 };
 
+const getInfraction =({match}) => {
+  return(
+    <DeleteInfraction 
+    delete={this.props.deleteInfraction()}
+    />
+  )
+};
+
 //const montant = this.props.penalites.penalites.map(penalite => penalite.montant);
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -95,16 +106,22 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 console.log("authen"  + this.props.auth.isAuthenticated );
 var token=localStorage.getItem('token');
 console.log("token"  + token );
-var decoded = jwt_decode(token);
+if(this.props.auth.isAuthenticated === true){
+  var decoded = jwt_decode(token);
  
-console.log("decode : "+decoded.roles[0].authority);
+  console.log("decode : "+decoded.roles[0].authority);
+}
+
         return (
             <div>
               {!this.props.auth.isAuthenticated ?
                 <div></div>
           :
           <div>
-           <Header logoutUser={this.props.logoutUser} />
+           <Header logoutUser={this.props.logoutUser}
+            auth={this.props.auth} 
+            role={decoded.roles[0].authority}
+           />
            
            </div>
               }
@@ -124,11 +141,17 @@ console.log("decode : "+decoded.roles[0].authority);
                />}/>
           <PrivateRoute path='/infractions/:infractionId' component={info} />
           <PrivateRoute path='/ajouterFacture/:infractionId' component={ajouterFacture} />
+          
           <Route path='/login' component={() => <Login auth={this.props.auth} 
           loginUser={this.props.loginUser} 
           logoutUser={this.props.logoutUser} /> }/>
-          
-          <PrivateRoute path='/home' component={() => <ListeVehicules infractions={this.props.infractions.infractions} />} />
+          <PrivateRoute path='/delete/:infractionId' component={getInfraction} />
+          <PrivateRoute path='/home' component={() => <ListeVehicules infractions={this.props.infractions.infractions}
+                           delete={this.props.deleteInfraction}
+                           role={decoded.roles[0].authority}
+                           />} />
+          <PrivateRoute exact path='/contactus' component={() => <ContactUs resetFeedbackForm={this.props.resetFeedbackForm}
+              postFeedback={this.props.postFeedback}  />} />
           <Redirect to="/home" />
         </Switch>
             </div>

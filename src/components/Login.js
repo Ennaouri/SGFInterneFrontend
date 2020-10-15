@@ -74,7 +74,7 @@ export default class Login extends Component {
           </Typography>
                 <LocalForm onSubmit={(values) => this.handleLogin(values)}  className={() => useStyles.form} className="mt-5">
                     <Row className="form-group">
-                        <Label htmlFor="username" md={4} className="ml-2">Numero Matricule</Label>
+                        <Label htmlFor="username" md={4} className="ml-2">Nom Utilisateur</Label>
                         <Col md={7}>
                             <Control.text model=".username" id="username" name="username"
                             placeholder="Username"
@@ -97,7 +97,7 @@ export default class Login extends Component {
                         </Col>
                     </Row>
                     <Row className="form-group">
-                        <Label htmlFor="password" md={4} className="ml-2">Marque Vehicule</Label>
+                        <Label htmlFor="password" md={4} className="ml-2">Mot de passe</Label>
                         <Col md={7}>
                             <Control.password model=".password" id="password" name="password"
                             placeholder="password"
