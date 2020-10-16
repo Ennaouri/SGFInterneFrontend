@@ -25,7 +25,7 @@ class AdjustStatus extends Component{
         });
         
         
-        this.props.postFacture(this.props.infractionId,montant,values.agreeGrise,values.agreePermis,values.agreeAssurance,values.agreeVignette,values.agreeVisite,values.valideMontant);
+        this.props.postFacture(this.props.infractionId,montant,values.agreeGrise,values.agreePermis,values.agreeAssurance,values.agreeVignette,values.agreeVisite,values.valideMontant,values.nomConducteur,values.prenomConducteur,values.cin);
         alert("Operation effectué avec succés");
         history.push('/home');
         window.location.reload();

@@ -5,7 +5,8 @@ import './infoInfractions.css';
 import {  MDBCardHeader, MDBCard, MDBCardBody, MDBTableHead, MDBTableBody,MDBTable, MDBDataTable  } from 'mdbreact';
 
 function InfoInfractions(props) {
-  console.log("pen inf :" + JSON.stringify(props.penalites[0])) 
+  console.log("pen inf :" + JSON.stringify(props.penalites[0])) ;
+  
     const tableRows = props.infractions.filter(infraction => infraction.id === parseInt(props.parametre,10)).map(( infraction , index) =>(
         
 

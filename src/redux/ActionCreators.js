@@ -90,7 +90,7 @@ export const addFacture = (facture) => ({
     payload: facture
 });
 
-export const postFacture = (infractionId, montantTotal , valideCarteGrise, validePermis, valideAssurance, valideVignette, valideVisite,validePaiement ) => (dispatch) => {
+export const postFacture = (infractionId, montantTotal , valideCarteGrise, validePermis, valideAssurance, valideVignette, valideVisite,validePaiement,nom,prenom,cin) => (dispatch) => {
     const bearer = 'Bearer ' + localStorage.getItem('token');
     const newFacture = {
         infractionId: infractionId,
@@ -100,7 +100,10 @@ export const postFacture = (infractionId, montantTotal , valideCarteGrise, valid
         valideAssurance : valideAssurance,
         valideVignette : valideVignette,
         valideVisiteTechnique : valideVisite,
-        validePaiement : validePaiement
+        validePaiement : validePaiement,
+        nom : nom,
+        prenom : prenom,
+        cin : cin
     };
     newFacture.datePaiement = new Date().toISOString();
 
@@ -158,6 +161,24 @@ export const fetchPoliciers = () => (dispatch) => {
         .then(policiers => dispatch(addPoliciers(policiers)))
         .catch(err => dispatch(receiveLogout()))
 };
+
+export const getInfractionByNumeroVehicule = (numeroVehicule) => ({
+    type : ActionTypes.GET_INFRACTION_By_NUMERO_VEHICULE,
+    payload : numeroVehicule
+});
+
+export const fetchInfractionByNumeroVehicule = () => (dispatch) => {
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'facturation/',{
+        headers : {
+            'Authorization' : bearer
+        }
+    })
+
+        .then(response => response.json())
+        .then(response => dispatch(getInfractionByNumeroVehicule))
+}
 
 export const addInfraction = (infraction) => ({
     type: ActionTypes.ADD_INFRACTION,
@@ -315,6 +336,39 @@ export const postFeedback = (firstname,lastname,telnum,email,agree,contactType,m
         alert("Your feedback could not be posted\nError: " + error.message);
       });
   };
+
+  export function updateSetSuccess(infraction) {
+    return {
+      type: ActionTypes.UPDATE_INFRACTION,
+      payload : infraction 
+    };
+  }
+  export const updateInfraction = (idInfraction,numeroMatricule, marqueVehicule , typeVehicule, typeInfraction) => (dispatch) => {
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+    const SelectedInfraction = {
+        idInfraction: idInfraction,
+        numeroMatricule: numeroMatricule,
+        marqueVehicule: marqueVehicule,
+        typeVehicule : typeVehicule,
+        typeInfraction : typeInfraction
+    };
+    return fetch(baseUrl + 'updateInfraction/' + idInfraction ,{
+        method: "PUT",
+        body: JSON.stringify(SelectedInfraction),
+        headers: {
+            'Authorization' : bearer,
+            "Content-Type": "application/json"
+            
+        },
+        credentials: "same-origin"
+    })
+
+        .then(response => response.json())
+        .then(response => dispatch(updateSetSuccess(response)))
+        
+};
+
+  
   export function deleteSetSuccess(id) {
     return {
       type: ActionTypes.DELETE_INFRACTION,

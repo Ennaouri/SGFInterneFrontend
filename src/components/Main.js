@@ -3,15 +3,18 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import ListeVehicules from './ListeVehicules';
 import Login from './Login' ;
+import UpdateInfraction from './UpdateInfraction' ;
 import {Switch, Route, withRouter, Redirect} from 'react-router-dom';
 import { connect } from 'react-redux';
 import AjouterInfraction from './AjouterInfraction';
 import ContactUs from './ContactUs' ;
-import { fetchInfractions, fetchPenalites, fetchVehicules, deleteInfraction, loginUser, logoutUser, postFacture, postInfraction,fetchDepannages, fetchPoliciers, postFeedback } from '../redux/ActionCreators';
+import { fetchInfractions, fetchPenalites,fetchInfractionByNumeroVehicule , fetchVehicules, deleteInfraction, loginUser, logoutUser, postFacture, postInfraction,fetchDepannages, fetchPoliciers, postFeedback, updateInfraction } from '../redux/ActionCreators';
 import InfoInfractions from './InfoInfractions';
 import AdjustStatus from "./AdjustStatus";
 import jwt_decode from "jwt-decode";
 import DeleteInfraction from './DeleteInfraction';
+import Facturation from './Facturation';
+import MediaInfraction from './MediaInfraction';
 
 
 const mapStateToProps = state => {
@@ -30,17 +33,18 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>({
   loginUser: (creds) => dispatch(loginUser(creds)),
   logoutUser: () => dispatch(logoutUser()),
-    postFacture: (infractionId, montantTotal , valideCarteGrise, validePermis, valideAssurance, valideVignette, valideVisite, validePaiement ) => dispatch(postFacture(infractionId, montantTotal , valideCarteGrise, validePermis, valideAssurance, valideVignette, valideVisite, validePaiement ) ),
-  postInfraction: (policierId,depannageId,numeroMatricule, marqueVehicule , typeVehicule, typeInfraction) => dispatch(postInfraction(policierId,depannageId,numeroMatricule, marqueVehicule , typeVehicule, typeInfraction)),
+    postFacture: (infractionId, montantTotal , valideCarteGrise, validePermis, valideAssurance, valideVignette, valideVisite, validePaiement,nom,prenom,cin ) => dispatch(postFacture(infractionId, montantTotal , valideCarteGrise, validePermis, valideAssurance, valideVignette, valideVisite, validePaiement,nom,prenom,cin ) ),
+  postInfraction: (policierId,depannageId,numeroMatricule, marqueVehicule , typeVehicule, typeInfraction,fd) => dispatch(postInfraction(policierId,depannageId,numeroMatricule, marqueVehicule , typeVehicule, typeInfraction,fd)),
     fetchPenalites: () => dispatch(fetchPenalites()),
   fetchDepannages : () => dispatch(fetchDepannages()),
   fetchInfractions: () => dispatch(fetchInfractions()),
   fetchVehicules: () => dispatch(fetchVehicules()),
   fetchPoliciers: () => dispatch(fetchPoliciers()),
   postFeedback: (firstname,lastname,telnum,email,agree,contactType,message) => dispatch(postFeedback(firstname,lastname,telnum,email,agree,contactType,message) ),
-  deleteInfraction: id => dispatch(deleteInfraction(id))
+  deleteInfraction: id => dispatch(deleteInfraction(id)),
 //  fetchPlaces: () => dispatch(fetchPlaces()),
-  
+fetchInfractionByNumeroVehicule : () => dispatch(fetchInfractionByNumeroVehicule()),
+updateInfraction: (idInfraction,numeroMatricule, marqueVehicule , typeVehicule, typeInfraction) => dispatch(updateInfraction(idInfraction,numeroMatricule, marqueVehicule , typeVehicule, typeInfraction))
 });
 
 
@@ -61,8 +65,7 @@ class Main extends Component {
 
 const info = ({match}) => {
   return(
-    <InfoInfractions infractionTest={
-      this.props.infractions.infractions.filter((infraction) => infraction.id === parseInt(match.params.infractionId,10))}
+    <InfoInfractions
     infractions={this.props.infractions.infractions}
     parametre={match.params.infractionId}
     penalites={this.props.penalites.penalites}
@@ -89,6 +92,27 @@ const getInfraction =({match}) => {
     />
   )
 };
+
+const updateInfractionLink = ({match}) => {
+  
+  return(
+    <UpdateInfraction 
+    infractions = {this.props.infractions.infractions}
+   updateInfraction = {this.props.updateInfraction}
+    parametre={match.params.infractionId}
+    />
+  )
+};
+
+const findInfraction = ({match}) => {
+  return(
+    <MediaInfraction 
+    infractions = {this.props.infractions.infractions}
+    
+    parametre={match.params.infractionId}
+    />
+  );
+} 
 
 //const montant = this.props.penalites.penalites.map(penalite => penalite.montant);
 
@@ -152,6 +176,9 @@ if(this.props.auth.isAuthenticated === true){
                            />} />
           <PrivateRoute exact path='/contactus' component={() => <ContactUs resetFeedbackForm={this.props.resetFeedbackForm}
               postFeedback={this.props.postFeedback}  />} />
+              <PrivateRoute exact path = '/facturation' component={() => <Facturation infractions={this.props.infractions.infractions}/>} />
+              <PrivateRoute path = '/facturation/:infractionId' component={() => <MediaInfraction parametre= {findInfraction}/>} />
+              <PrivateRoute path = '/UpdateInfractions/:infractionId' component={updateInfractionLink} />
           <Redirect to="/home" />
         </Switch>
             </div>

@@ -1,39 +1,30 @@
-import React , {Component} from 'react';
+import React, { Component } from 'react'
 import {Control, LocalForm, Errors,Field, reduxForm} from 'react-redux-form';
 import {Label, Col, Row, Button} from 'reactstrap';
-import './ajouterInfraction.css';
+import { Link } from 'react-router-dom';
 import history from "../components/history";
-import FileInput from './FileInput';
-import { FreeBreakfast } from '@material-ui/icons';
+
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
-//const isNumber = (val) => !isNaN(Number(val));
 
-class AjouterInfraction extends Component {
-    
 
+
+
+export default class UpdateInfraction extends Component {
 
     handleSubmit(values){
-        
-        this.props.postInfraction(values.policierId,values.depannageId,values.numeroMatricule, values.marqueVehicule , values.typeVehicule, values.typeInfraction);
+        console.log("je suis dans submit update" + this.props.parametre);
+        this.props.updateInfraction(this.props.parametre, values.numeroMatricule, values.marqueVehicule , values.typeVehicule, values.typeInfraction);
         alert("Operation effectué avec succés");
         history.push('/home');
         window.location.reload();
         
     }
-
-     
-
-    render(){
-        console.log("je suis dans ajouterInf");
-        const dep = this.props.depannages.map((depannage,index) => (
-        <option key={index} value={depannage.id}>{depannage.nom} {depannage.prenom}</option>
-        ));
-        const pol = this.props.policiers.map((policier,index) => (
-            <option key={index} value={policier.id}>{policier.nom} {policier.prenom} </option>
-            ));
+    
+    render() {
+        
         return (
             <div className="container ajouterInfraction__home">
                 <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
@@ -105,46 +96,12 @@ class AjouterInfraction extends Component {
                             </Control.select>
                         </Col>
                     </Row>
-                    <Row className="form-group">
-                    <Col md={{size: 10, offset: 2}}>
-                            <Control.select model=".secteur" name="secteur"
-                            className="form-control" >
-                                <option  hidden>Choisir Secteur de l'Infraction</option>
-                                <option>cym</option>
-                                <option>hassan</option>
-                                <option>hay riad</option>
-                            </Control.select>
-                        </Col>
-                    </Row>
-                    <Row className="form-group">
-                    <Col md={{size: 10, offset: 2}}>
-                            <Control.select model=".depannageId" name="depannageId"
-                            className="form-control" >
-                                <option  hidden>Choisir Depannage</option>
-                                {dep}
-                            </Control.select>
-                        </Col>
-                    </Row>
-                    <Row className="form-group">
-                    <Col md={{size: 10, offset: 2}}>
-                            <Control.select model=".policierId" name="policierId"
-                            className="form-control" >
-                                <option  hidden>Choisir Policier Constateur de l'infraction</option>
-                                {pol}
-                            </Control.select>
-                        </Col>
-                    </Row>
-                    <Row className="fileUp">
-                    <input
-  type="file"
-  name="poster"
-  
-/>
-                    </Row>
+                    
+                   
+                    
                     <Row className="form-group mt-4">
-                        <Col md={{size: 10, offset: 2}}>
-                            <Button type="submit" color="primary" 
-              >
+                    <Col md={{size: 10, offset: 2}}>
+                            <Button type="submit" color="primary" >
                                 Valider
                             </Button>
                         </Col>
@@ -155,8 +112,4 @@ class AjouterInfraction extends Component {
             </div>
         )
     }
-    
-    
 }
-
-export default AjouterInfraction

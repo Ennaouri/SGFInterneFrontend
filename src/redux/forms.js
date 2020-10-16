@@ -5,7 +5,10 @@ export const InitialFacture = {
     validePermis: false,
     valideAssurance : false,
     valideVignette : false,
-    valideVisite : false
+    valideVisite : false,
+    nom : '' ,
+    prenom : '',
+    cin : ''
 };
 
 export const InitialId = {
@@ -30,3 +33,11 @@ export const InitialFeedback = {
     contactType: 'Tel.',
     message: ''
 };
+
+export const InitialUpdate = {
+    idInfraction : '',
+    numeroMatricule : '',
+    marqueVehicule : '',
+    typeVehicule : '' ,
+    typeInfraction : '' 
+}

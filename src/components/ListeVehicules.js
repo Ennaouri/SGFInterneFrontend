@@ -43,8 +43,8 @@ const rows2=[];
               <Link to={'/infractions/' + infraction.id} ><span className="fa fa-list fa-lg ml-2"></span></Link>
               : <div></div>
             }
-                    <Link to="/UpdateInfraction"  ><a href="#"><i className="fa fa-pencil fa-fw ml-2"></i></a></Link>
-                    <Link to={'/delete/' + infraction.id}  ><a href="#" onClick={() => this.handleDelete(infraction.id)} ><i class="fa fa-trash-o fa-fw ml-2" ></i> </a></Link>
+                    <Link to={"/UpdateInfractions/" + infraction.id}  ><i className="fa fa-pencil fa-fw ml-2"></i></Link>
+                    <Link to={'/delete/' + infraction.id}  onClick={() => this.handleDelete(infraction.id)} ><i className="fa fa-trash-o fa-fw ml-2" ></i> </Link>
                    
                     
                             
@@ -115,14 +115,14 @@ const rows2=[];
   };
 
         return (
-            <div className="container listeVehicules__home">
+            <div className="container listeVehicules__home mt-5">
 
 <MDBCard>
                     <MDBCardHeader tag="h3" className="text-center font-weight-bold text-uppercase py-4">
                         Listes de Vehicules Saisies
                     </MDBCardHeader>
                     <MDBCardBody>
-                    <div class="d-flex justify-content-center buttons-wrapper">
+                    <div className="d-flex justify-content-center buttons-wrapper">
     
     <Link  to='/AjouterInfraction' className="btn btn-success">Ajouter une Infraction</Link>
   </div>
