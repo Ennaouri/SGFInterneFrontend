@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import './listeVehicules.css'
-import {  MDBCardHeader, MDBCard, MDBCardBody, MDBTableHead, MDBTableBody,MDBTable, MDBDataTable  } from 'mdbreact';
+import {  MDBCardHeader, MDBCard, MDBCardBody, MDBDataTable  } from 'mdbreact';
 import {Link} from 'react-router-dom'
-import {Button} from 'react-bootstrap' ;
-import { LocalForm} from 'react-redux-form';
 import history from "../components/history";
 
 class ListeVehicules extends Component {

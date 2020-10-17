@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Row, Col, Button, Label } from 'reactstrap';
 import {Control,LocalForm,Errors} from 'react-redux-form';
 import history from "../components/history";
-import {  MDBCardHeader, MDBCard, MDBCardBody, MDBTableHead, MDBTableBody,MDBTable, MDBDataTable  } from 'mdbreact';
+import {  MDBCardHeader, MDBCard, MDBCardBody } from 'mdbreact';
 import './adjustStatus.css';
 
 //const required =(val) =>val&&val.length;

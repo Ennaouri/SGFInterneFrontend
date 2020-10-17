@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import './Header.css';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import VideocallIcon from '@material-ui/icons/VideoCall';
-import NotificationIcon from '@material-ui/icons/Notifications';
 import Avatar from '@material-ui/core/Avatar';
 import {Button} from 'react-bootstrap' ;
-import {Form} from 'react-bootstrap';
-import {Control, LocalForm, Errors} from 'react-redux-form';
-import { Nav, Navbar, NavbarBrand, NavbarToggler, Collapse} from 'reactstrap';
+import { LocalForm} from 'react-redux-form';
+import { Nav, Navbar, NavbarToggler, Collapse} from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import { NavDropdown } from 'react-bootstrap';
 import 'react-slideshow-image/dist/styles.css';
 
 class Header extends Component {
@@ -19,34 +14,6 @@ class Header extends Component {
         this.props.logoutUser();
     }
 
-    /* render(){
-    
-    return (
-        <div className="header">
-            <div className="header__left">
-                <MenuIcon />
-            </div>
-            <div className="header__input">
-                <input placeholder="Search" type="text" />
-                <SearchIcon className="header__inputButton"/> 
-            </div>
-            <div className="header__icons">
-                <VideocallIcon className="header__icon" />
-                <NotificationIcon className="header__icon" />
-                <Avatar
-                    alt="Ennaouri"
-                    src="../assets/images/photo.jpg"
-                    />
-                    <LocalForm onSubmit={() => this.handleLogout()}>
-                    <Button type="submit" color="primary" className="ml-2" >
-                                Logout
-                            </Button>
-                            </LocalForm>
-            </div>
-            
-        </div>
-    )
-} */
 constructor(props) {
     super(props);
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Header from './Header';
-import Sidebar from './Sidebar';
 import ListeVehicules from './ListeVehicules';
 import Login from './Login' ;
 import UpdateInfraction from './UpdateInfraction' ;

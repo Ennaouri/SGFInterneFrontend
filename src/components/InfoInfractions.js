@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Button} from 'react-bootstrap';
 import './infoInfractions.css';
-import {  MDBCardHeader, MDBCard, MDBCardBody, MDBTableHead, MDBTableBody,MDBTable, MDBDataTable  } from 'mdbreact';
+import {  MDBCardHeader, MDBCard, MDBCardBody } from 'mdbreact';
 
 function InfoInfractions(props) {
   console.log("pen inf :" + JSON.stringify(props.penalites[0])) ;

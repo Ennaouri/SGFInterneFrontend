@@ -1,10 +1,9 @@
 import React , {Component} from 'react';
-import {Control, LocalForm, Errors,Field, reduxForm} from 'react-redux-form';
+import {Control, LocalForm, Errors} from 'react-redux-form';
 import {Label, Col, Row, Button} from 'reactstrap';
 import './ajouterInfraction.css';
 import history from "../components/history";
-import FileInput from './FileInput';
-import { FreeBreakfast } from '@material-ui/icons';
+
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);

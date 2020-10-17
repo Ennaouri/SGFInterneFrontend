@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import {Control, LocalForm, Errors,Field, reduxForm} from 'react-redux-form';
+import {Control, LocalForm} from 'react-redux-form';
 import {Label, Col, Row, Button} from 'reactstrap';
-import {MDBBtn} from 'mdbreact';
 import history from "../components/history";
-import MediaInfraction from './MediaInfraction';
+
 
 
 
@@ -15,19 +14,25 @@ export default class Facturation extends Component {
     
     handleSubmit = (values) => {
         let infractionSelected = null;
-        const infraction = this.props.infractions.map((infraction,index) => {
+        this.props.infractions.map((infraction,index) => {
             if(infraction.vehicule.numeroMatricule === values.numeroMatricule)
             infractionSelected = infraction
+            return infraction
         })
        
+        if(infractionSelected != null){
+            console.log("numero : " + infractionSelected);
         
-        console.log("numero : " + infractionSelected);
-        history.push('/infractions/' + infractionSelected.id);
-        window.location.reload();
+            history.push('/infractions/' + infractionSelected.id);
+            window.location.reload();
+        }else {
+            alert("ce vehicule n'exste pas dans la base");
+        }
+        
     }
     
     render() {
-        let infractionSelected;
+       
         
         return (
             <div className="container mt-5">

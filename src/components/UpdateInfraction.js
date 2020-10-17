@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import {Control, LocalForm, Errors,Field, reduxForm} from 'react-redux-form';
+import {Control, LocalForm, Errors} from 'react-redux-form';
 import {Label, Col, Row, Button} from 'reactstrap';
-import { Link } from 'react-router-dom';
 import history from "../components/history";
 
 
